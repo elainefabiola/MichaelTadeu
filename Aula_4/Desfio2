@@ -1,0 +1,104 @@
+/**
+Desafio – Sistema de Reembolso de Despesas
+Contexto:
+Você está desenvolvendo um sistema para calcular o valor de reembolso de despesas de funcionários de uma empresa. Cada funcionário pode solicitar reembolso de despesas de alimentação, 
+transporte e hospedagem, com regras diferentes dependendo do tipo de despesa e da quantidade de dias trabalhados.
+
+Objetivo:
+Criar métodos com retorno, parâmetros, múltiplas assinaturas (sobrecarga) e uso de lógica condicional para calcular corretamente o valor de reembolso.
+Requisitos:
+Classe: Reembolso
+Atributos:
+String nomeFuncionario
+int diasTrabalhados
+Métodos obrigatórios:
+public double calcularReembolso(double alimentacao, double transporte, double hospedagem)
+→ Soma os valores e retorna o total de reembolso.
+public double calcularReembolso(double alimentacao, double transporte)
+→ Método sobrecarregado, calcula reembolso quando não houve hospedagem.
+public void imprimirResumoReembolso(double valorTotal)
+→ Imprime algo como:
+"Funcionário: Carla – Dias Trabalhados: 5 – Reembolso Total: R$ 385.00"
+Regra adicional:
+Se o número de dias trabalhados for maior que 7, aplicar um bônus de 10% sobre o reembolso total antes de imprimir.
+Classe Principal:
+Crie três objetos de Reembolso, com diferentes dados.
+Teste chamadas aos dois métodos calcularReembolso(...) com e sem hospedagem.
+
+*/
+
+class Reembolso {
+    String nomeFuncionario;
+    int diasTrabalhados;
+    
+    // Construtor
+    Reembolso(String nomeFuncionario, int diasTrabalhados) {
+        this.nomeFuncionario = nomeFuncionario;
+        this.diasTrabalhados = diasTrabalhados;
+    }
+    
+    // Método para calcular reembolso com hospedagem
+    public double calcularReembolso(double alimentacao, double transporte, double hospedagem) {
+        double reembolso = alimentacao + transporte + hospedagem;
+        
+        // Aplicar bônus de 10% se dias trabalhados > 7
+        if (diasTrabalhados > 7) {
+            reembolso = reembolso * 1.10; // 10% de bônus
+        }
+        
+        return reembolso;
+    }
+    
+    // Método sobrecarregado para calcular reembolso sem hospedagem
+    public double calcularReembolso(double alimentacao, double transporte) {
+        double reembolso = alimentacao + transporte;
+        
+        // Aplicar bônus de 10% se dias trabalhados > 7
+        if (diasTrabalhados > 7) {
+            reembolso = reembolso * 1.10; // 10% de bônus
+        }
+        
+        return reembolso;
+    }
+    
+    // Método para imprimir resumo do reembolso
+    public void imprimirResumoReembolso(double valorTotal) {
+        System.out.printf("Funcionário: %s – Dias Trabalhados: %d – Reembolso Total: R$ %.2f%n", 
+                         nomeFuncionario, diasTrabalhados, valorTotal);
+    }
+}
+
+// Classe Principal
+public class Desafio2 {
+    public static void main(String[] args) {
+        System.out.println("=== SISTEMA DE REEMBOLSO DE DESPESAS ===\n");
+        
+        // Criando três objetos de Reembolso com diferentes dados
+        Reembolso funcionario1 = new Reembolso("Carla", 5);
+        Reembolso funcionario2 = new Reembolso("João", 10);
+        Reembolso funcionario3 = new Reembolso("Maria", 3);
+        
+        // Teste 1: Funcionário com hospedagem (dias <= 7)
+        System.out.println("Teste 1 - Funcionário com hospedagem (dias <= 7):");
+        double reembolso1 = funcionario1.calcularReembolso(150.0, 100.0, 135.0);
+        funcionario1.imprimirResumoReembolso(reembolso1);
+        System.out.println();
+        
+        // Teste 2: Funcionário sem hospedagem (dias > 7) - aplica bônus
+        System.out.println("Teste 2 - Funcionário sem hospedagem (dias > 7) - aplica bônus:");
+        double reembolso2 = funcionario2.calcularReembolso(200.0, 150.0);
+        funcionario2.imprimirResumoReembolso(reembolso2);
+        System.out.println();
+        
+        // Teste 3: Funcionário sem hospedagem (dias <= 7)
+        System.out.println("Teste 3 - Funcionário sem hospedagem (dias <= 7):");
+        double reembolso3 = funcionario3.calcularReembolso(80.0, 60.0);
+        funcionario3.imprimirResumoReembolso(reembolso3);
+        System.out.println();
+        
+        // Teste 4: Funcionário com hospedagem (dias > 7) - aplica bônus
+        System.out.println("Teste 4 - Funcionário com hospedagem (dias > 7) - aplica bônus:");
+        double reembolso4 = funcionario2.calcularReembolso(250.0, 180.0, 200.0);
+        funcionario2.imprimirResumoReembolso(reembolso4);
+    }
+}
